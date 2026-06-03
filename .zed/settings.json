@@ -1,0 +1,12 @@
+{
+  "lsp": {
+    "arduino-language-server": {
+      "initialization_options": {
+        "autoCreateConfig": true
+      },
+      "settings": {
+        "autoCreateConfig": true
+      }
+    }
+  }
+}
