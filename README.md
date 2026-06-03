@@ -86,7 +86,8 @@ Gebruik:
 
 * `zed: open tasks` → opent je `tasks.json`
 * Hier kun je taken aanpassen of toevoegen
-
+  
+![Open Tasks](images/zed-open-tasks.png)
 ---
 
 ## 📚 Libraries
