@@ -1,28 +1,28 @@
 [
   {
     "label": "Arduino IDE: Verify",
-    "command": "arduino-cli compile --fqbn arduino:avr:uno \"${ZED_DIRNAME}\"",
+    "command": "$fqbn = Read-Host \"Voor welk board wil je compileren? (uno / nano / mega / micro)\";\nif (-not $fqbn) { $fqbn = \"arduino:avr:uno\" };\nif ($fqbn -eq 'uno') { $fqbn = 'arduino:avr:uno' };\nif ($fqbn -eq 'nano') { $fqbn = 'arduino:avr:nano' };\nif ($fqbn -eq 'mega') { $fqbn = 'arduino:megaavr:nanoevery' };\nif ($fqbn -eq 'micro') { $fqbn = 'arduino:avr:micro' };\nWrite-Host \"Compileer voor: $fqbn\" -ForegroundColor Cyan;\narduino-cli compile --fqbn $fqbn \"${ZED_DIRNAME}\"",
     "reveal": "always",
     "save": "all",
     "allow_concurrent_runs": false
   },
   {
     "label": "Arduino IDE: Upload",
-    "command": "arduino-cli upload --fqbn arduino:avr:uno --port COM3 \"${ZED_DIRNAME}\"",
+    "command": "$boards = arduino-cli board list --json | ConvertFrom-Json;\n$auto = $boards | Where-Object { $_.port.protocol -eq 'serial' } | Select-Object -First 1;\nif ($auto) {\n  $port = $auto.port.address;\n  if ($auto.matching_boards -and $auto.matching_boards.Count -gt 0) {\n    $fqbn = $auto.matching_boards[0].fqbn;\n    Write-Host \"Auto-detect succesvol: $fqbn\" -ForegroundColor Green;\n  } else {\n    Write-Host \"Onbekend board (kloon). Typ: uno, nano, mega of micro\" -ForegroundColor Yellow;\n    $input = Read-Host \"Geef board type\";\n    $fqbn = $input;\n    if ($input -eq 'uno') { $fqbn = 'arduino:avr:uno' };\n    if ($input -eq 'nano') { $fqbn = 'arduino:avr:nano' };\n    if ($input -eq 'mega') { $fqbn = 'arduino:megaavr:nanoevery' };\n    if ($input -eq 'micro') { $fqbn = 'arduino:avr:micro' };\n  }\n  Write-Host \"Uploaden naar: $fqbn op poort $port...\" -ForegroundColor Cyan;\n  arduino-cli upload --fqbn $fqbn --port $port \"${ZED_DIRNAME}\";\n} else {\n  Write-Host \"FOUT: Geen USB-poort gevonden! Sluit je board aan.\" -ForegroundColor Red;\n}",
     "reveal": "always",
     "save": "all",
     "allow_concurrent_runs": false
   },
   {
     "label": "Arduino IDE: Verify + Upload",
-    "command": "arduino-cli compile --fqbn arduino:avr:uno --upload --port COM3 \"${ZED_DIRNAME}\"",
+    "command": "$boards = arduino-cli board list --json | ConvertFrom-Json;\n$auto = $boards | Where-Object { $_.port.protocol -eq 'serial' } | Select-Object -First 1;\nif ($auto) {\n  $port = $auto.port.address;\n  if ($auto.matching_boards -and $auto.matching_boards.Count -gt 0) {\n    $fqbn = $auto.matching_boards[0].fqbn;\n    Write-Host \"Auto-detect succesvol: $fqbn\" -ForegroundColor Green;\n  } else {\n    Write-Host \"Onbekend board (kloon). Typ: uno, nano, mega of micro\" -ForegroundColor Yellow;\n    $input = Read-Host \"Geef board type\";\n    $fqbn = $input;\n    if ($input -eq 'uno') { $fqbn = 'arduino:avr:uno' };\n    if ($input -eq 'nano') { $fqbn = 'arduino:avr:nano' };\n    if ($input -eq 'mega') { $fqbn = 'arduino:megaavr:nanoevery' };\n    if ($input -eq 'micro') { $fqbn = 'arduino:avr:micro' };\n  }\n  Write-Host \"Compileren + uploaden naar: $fqbn op poort $port...\" -ForegroundColor Cyan;\n  arduino-cli compile --fqbn $fqbn --upload --port $port \"${ZED_DIRNAME}\";\n} else {\n  Write-Host \"FOUT: Geen USB-poort gevonden! Sluit je board aan.\" -ForegroundColor Red;\n}",
     "reveal": "always",
     "save": "all",
     "allow_concurrent_runs": false
   },
   {
     "label": "Arduino IDE: Serial Monitor",
-    "command": "arduino-cli monitor --port COM3 --config \"baudrate=115200\"",
+    "command": "$boards = arduino-cli board list --json | ConvertFrom-Json;\n$auto = $boards | Where-Object { $_.port.protocol -eq 'serial' } | Select-Object -First 1;\nif ($auto) {\n  $port = $auto.port.address;\n  Write-Host \"Seriële monitor start op poort: $port\" -ForegroundColor Cyan;\n  arduino-cli monitor --port $port --config \"baudrate=115200\";\n} else {\n  Write-Host \"FOUT: Geen actieve USB-poort gevonden.\" -ForegroundColor Red;\n}",
     "reveal": "always",
     "allow_concurrent_runs": false
   },
@@ -38,22 +38,22 @@
   },
   {
     "label": "Arduino IDE: Install AVR Core",
-    "command": "arduino-cli core install arduino:avr",
+    "command": "Write-Host \"AVR Core installeren...\" -ForegroundColor Cyan;\narduino-cli core install arduino:avr",
     "reveal": "always"
   },
   {
     "label": "Arduino IDE: Search Library",
-    "command": "$zoek = Read-Host \"Welke library zoek je?\"; if ($zoek) { arduino-cli lib search \"$zoek\" }",
+    "command": "$zoek = Read-Host \"Welke library zoek je?\";\nif ($zoek) { arduino-cli lib search \"$zoek\" }",
     "reveal": "always"
   },
   {
     "label": "Arduino IDE: Install Library (Handmatig)",
-    "command": "$lib = Read-Host \"Welke library wil je installeren?\"; if ($lib) { arduino-cli lib install \"$lib\" }",
+    "command": "$lib = Read-Host \"Welke library wil je installeren?\";\nif ($lib) { Write-Host \"Library $lib installeren...\" -ForegroundColor Cyan;\narduino-cli lib install \"$lib\" }",
     "reveal": "always"
   },
   {
     "label": "Arduino IDE: Auto-Install Libraries",
-    "command": "$file = Get-ChildItem \"${ZED_DIRNAME}\" -Filter \"*.ino\" | Select-Object -First 1; if ($file) { $includes = Get-Content $file.FullName | Where-Object { $_ -match \"#include\" } | ForEach-Object { $_.Trim().Substring(8).Trim().Trim(\"<>\").Trim([char]34) }; $includes | ForEach-Object { $cleanLib = [System.IO.Path]::GetFileNameWithoutExtension($_).Replace(\"_\", \" \"); if ($cleanLib -notmatch \"Arduino|SPI|Wire|SoftwareSerial|EEPROM\") { Write-Host \"Systeem probeert te installeren: $cleanLib\"; arduino-cli lib install \"$cleanLib\" } } } else { Write-Host \"Geen .ino bestand gevonden\" }",
+    "command": "$file = Get-ChildItem \"${ZED_DIRNAME}\" -Filter \"*.ino\" | Select-Object -First 1;\nif ($file) {\n  $includes = Get-Content $file.FullName | ForEach-Object { if ($_ -match '#include\\s+[<\\\"]([^>\\\"]+)[>\\\"]') { $Matches[1] } };\n  $includes | Where-Object { $_ } | ForEach-Object {\n    $cleanLib = $_.Replace('.h', '').Replace('_', ' ');\n    if ($cleanLib -eq 'DHT') { $cleanLib = 'DHT sensor library' };\n    if ($cleanLib -notmatch 'Arduino|SPI|Wire|SoftwareSerial|EEPROM') {\n      Write-Host \"Systeem probeert te installeren: $cleanLib\" -ForegroundColor Cyan;\n      arduino-cli lib install \"$cleanLib\";\n    }\n  }\n} else {\n  Write-Host \"FOUT: Geen .ino bestand gevonden.\" -ForegroundColor Red;\n}",
     "reveal": "always",
     "save": "all"
   }
