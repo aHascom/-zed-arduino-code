@@ -42,14 +42,8 @@ Je hebt twee opties:
 
 * Automatisch zoeken
 * Handmatig toevoegen
+* Druk op `Ctrl + Shift + P`
+* Kies **Task: Spawn**
 
-Het systeem probeert automatisch de juiste instellingen en pins te detecteren.
-
----
-
-## 🔌 Pins
-
-Je kunt zelf kiezen welke pins je gebruikt.
-Het systeem helpt automatisch bij het instellen.
 
 ---
