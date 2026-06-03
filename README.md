@@ -41,7 +41,8 @@ https://zed.dev/docs/installation
 * Open Zed
 * Ga naar **Extensions (Ctrl + Shift + X)**
 * Klik op **Install Dev Extension**
-
+![Open Tasks](images/extension.png)
+![Open Tasks](images/install-Dev-Extension.png)
 ---
 
 ## 🚀 Gebruik
@@ -60,7 +61,7 @@ Daar zie je Arduino opties zoals:
 * Verify
 * Libraries installeren
 * Serial monitor
-
+![Open Tasks](images/The-arduino.png)
 ---
 
 ### 📤 Code uploaden
