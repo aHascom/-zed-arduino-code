@@ -1,0 +1,96 @@
+{
+  "Arduino Setup + Loop": {
+    "prefix": "arduino",
+    "body": [
+      "void setup() {",
+      "\tSerial.begin(9600);",
+      "\t$0",
+      "}",
+      "",
+      "void loop() {",
+      "\t",
+      "}"
+    ],
+    "description": "Basic Arduino sketch skeleton"
+  },
+  "pinMode": {
+    "prefix": "pm",
+    "body": "pinMode(${1:pin}, ${2|INPUT,OUTPUT,INPUT_PULLUP|});",
+    "description": "pinMode(pin, mode)"
+  },
+  "digitalWrite": {
+    "prefix": "dw",
+    "body": "digitalWrite(${1:pin}, ${2|HIGH,LOW|});",
+    "description": "digitalWrite(pin, value)"
+  },
+  "digitalRead": {
+    "prefix": "dr",
+    "body": "digitalRead(${1:pin})",
+    "description": "digitalRead(pin)"
+  },
+  "analogWrite": {
+    "prefix": "aw",
+    "body": "analogWrite(${1:pin}, ${2:value});",
+    "description": "analogWrite(pin, 0-255)"
+  },
+  "analogRead": {
+    "prefix": "ar",
+    "body": "analogRead(${1:A0})",
+    "description": "analogRead(pin)"
+  },
+  "delay": {
+    "prefix": "dl",
+    "body": "delay(${1:1000});",
+    "description": "delay(ms)"
+  },
+  "Serial.begin": {
+    "prefix": "sb",
+    "body": "Serial.begin(${1:9600});",
+    "description": "Serial.begin(baud)"
+  },
+  "Serial.println": {
+    "prefix": "sp",
+    "body": "Serial.println(${1:value});",
+    "description": "Serial.println(value)"
+  },
+  "Serial.print": {
+    "prefix": "spr",
+    "body": "Serial.print(${1:value});",
+    "description": "Serial.print(value)"
+  },
+  "for loop": {
+    "prefix": "for",
+    "body": [
+      "for (int ${1:i} = 0; ${1:i} < ${2:10}; ${1:i}++) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "for loop"
+  },
+  "if/else": {
+    "prefix": "ife",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$0",
+      "} else {",
+      "\t",
+      "}"
+    ],
+    "description": "if / else block"
+  },
+  "map()": {
+    "prefix": "map",
+    "body": "map(${1:value}, ${2:fromLow}, ${3:fromHigh}, ${4:toLow}, ${5:toHigh})",
+    "description": "map(value, fromLow, fromHigh, toLow, toHigh)"
+  },
+  "attachInterrupt": {
+    "prefix": "ai",
+    "body": "attachInterrupt(digitalPinToInterrupt(${1:pin}), ${2:ISR_function}, ${3|RISING,FALLING,CHANGE|});",
+    "description": "attachInterrupt"
+  },
+  "while loop": {
+    "prefix": "wh",
+    "body": ["while (${1:condition}) {", "\t$0", "}"],
+    "description": "while loop"
+  }
+}
