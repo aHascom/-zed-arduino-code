@@ -1,0 +1,7 @@
+id = "arduino-upload"
+name = "Arduino Upload"
+version = "0.1.0"
+schema_version = 1
+authors = ["Arduino Zed Extension Contributors"]
+description = "Arduino language support for .ino/.pde files, snippets, and example compile/upload tasks via arduino-cli."
+repository = "https://github.com/your-username/zed-arduino-upload"
