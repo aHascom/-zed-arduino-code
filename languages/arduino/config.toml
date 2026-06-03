@@ -1,0 +1,5 @@
+name = "Arduino"
+grammar = "cpp"
+path_suffixes = ["ino", "pde"]
+line_comments = ["// "]
+block_comment = { start = "/*", end = "*/" }
