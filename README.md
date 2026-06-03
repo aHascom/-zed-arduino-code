@@ -61,6 +61,7 @@ Daar zie je Arduino opties zoals:
 * Verify
 * Libraries installeren
 * Serial monitor
+![Open Tasks](images/task-spawn.png)
 ![Open Tasks](images/The-arduino.png)
 ---
 
