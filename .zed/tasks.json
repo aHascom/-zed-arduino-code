@@ -1,0 +1,60 @@
+[
+  {
+    "label": "Arduino IDE: Verify",
+    "command": "arduino-cli compile --fqbn arduino:avr:uno \"${ZED_DIRNAME}\"",
+    "reveal": "always",
+    "save": "all",
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Arduino IDE: Upload",
+    "command": "arduino-cli upload --fqbn arduino:avr:uno --port COM3 \"${ZED_DIRNAME}\"",
+    "reveal": "always",
+    "save": "all",
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Arduino IDE: Verify + Upload",
+    "command": "arduino-cli compile --fqbn arduino:avr:uno --upload --port COM3 \"${ZED_DIRNAME}\"",
+    "reveal": "always",
+    "save": "all",
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Arduino IDE: Serial Monitor",
+    "command": "arduino-cli monitor --port COM3 --config \"baudrate=115200\"",
+    "reveal": "always",
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Arduino IDE: Boards & Ports",
+    "command": "arduino-cli board list",
+    "reveal": "always"
+  },
+  {
+    "label": "Arduino IDE: Installed Cores",
+    "command": "arduino-cli core list",
+    "reveal": "always"
+  },
+  {
+    "label": "Arduino IDE: Install AVR Core",
+    "command": "arduino-cli core install arduino:avr",
+    "reveal": "always"
+  },
+  {
+    "label": "Arduino IDE: Search Library",
+    "command": "$zoek = Read-Host \"Welke library zoek je?\"; if ($zoek) { arduino-cli lib search \"$zoek\" }",
+    "reveal": "always"
+  },
+  {
+    "label": "Arduino IDE: Install Library (Handmatig)",
+    "command": "$lib = Read-Host \"Welke library wil je installeren?\"; if ($lib) { arduino-cli lib install \"$lib\" }",
+    "reveal": "always"
+  },
+  {
+    "label": "Arduino IDE: Auto-Install Libraries",
+    "command": "$file = Get-ChildItem \"${ZED_DIRNAME}\" -Filter \"*.ino\" | Select-Object -First 1; if ($file) { $includes = Get-Content $file.FullName | Where-Object { $_ -match \"#include\" } | ForEach-Object { $_.Trim().Substring(8).Trim().Trim(\"<>\").Trim([char]34) }; $includes | ForEach-Object { $cleanLib = [System.IO.Path]::GetFileNameWithoutExtension($_).Replace(\"_\", \" \"); if ($cleanLib -notmatch \"Arduino|SPI|Wire|SoftwareSerial|EEPROM\") { Write-Host \"Systeem probeert te installeren: $cleanLib\"; arduino-cli lib install \"$cleanLib\" } } } else { Write-Host \"Geen .ino bestand gevonden\" }",
+    "reveal": "always",
+    "save": "all"
+  }
+]
